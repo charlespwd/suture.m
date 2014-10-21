@@ -10,12 +10,11 @@ classdef FourierDescriptors
     harmonic_amplitudes,    % A = {A_k}
     harmonic_phase_angles,  % alpha = {alpha_k}
     truncation_length,      % N
-    angular_direction_at_0, % \delta_0
     mu_0,                   % \mu_0
   end
 
   methods
-    function FD = FourierDescriptors(As, Alphas, delta_0)
+    function FD = FourierDescriptors(As, Alphas)
       if (length(As) ~= length(Alphas))
         error('As and Alphas should have the same length');
       end

@@ -16,6 +16,10 @@ function z = fd_reconstruct_z_difference_at_t(FD, t_final, delta_0)
 % Supporting paper:
 %   Zahn, Charles, "Fourier Descriptors for Plane Closed Curves.", 1972
 
+  if nargin < 3
+    delta_0 = 0;
+  end
+
   if (~isa(FD, 'FourierDescriptors'))
     error('Passed FD is not an instance of FourierDescriptors')
   end
@@ -25,14 +29,14 @@ function z = fd_reconstruct_z_difference_at_t(FD, t_final, delta_0)
   N = length(As);     % Truncation size
   d_0 = delta_0;
   u_0 = FD.mu_0;
-  
+
   % Helper functions
   A = @(k) As(k);
   alpha = @(k) Alphas(k);
 
   % mu_0 = sum_{k=1}^N A_k * cos(\alpha_k)
   %u_0 = sum(arrayfun(@(k) A(k)*cos(alpha(k)), 1:N));
-  
+
   % gamma(k, t) = A_k * cos(kt - \alpha_k)
   gamma = @(t, k) A(k) * cos(k*t - alpha(k));
 
@@ -42,13 +46,13 @@ function z = fd_reconstruct_z_difference_at_t(FD, t_final, delta_0)
 
   % \phi^*(t) = -t + \delta_0 + \mu_0 + \sum_{k=1}^n \gamma(k, t)
   phi_star = @(t) -t + d_0 + u_0 + sum_gamma(t);
-  
-  exp_phi_star = @(t) exp(1i * phi_star(t)); 
+
+  exp_phi_star = @(t) exp(1i * phi_star(t));
 
   % TODO: The scale factor kind of is a problem right now... Cause you need
   % to know the perimeter to construct the shape? That seems hard to
   % do... We'll see how this goes. We'll start by assuming the shape
-  % perimeter to be 2*pi and scale to our needs after. 
+  % perimeter to be 2*pi and scale to our needs after.
   %
   % To be clear, the scale factor is the one corresponding to the
   % transformation from l -> t, where l \in [0, L] and t \in [0, 2pi]
