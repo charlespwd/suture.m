@@ -22,13 +22,13 @@ classdef Memo
         l = fgetl(fileid);
         i = 1;
         while ischar(l)
-          lines{i} = l;
+          mlines{i} = l;
           i = i + 1;
           l = fgetl(fileid);
         end
-        hashes = cellfun(@(l) regexp(l, '"(.*)"', 'tokens'), lines);
+        hashes = cellfun(@(l) regexp(l, '"(.*)"', 'tokens'), mlines);
         hashes = cellfun(@(m) m{1}, hashes, 'UniformOutput', false);
-        values = cellfun(@(l) regexp(l, '",(.*)', 'tokens'), lines);
+        values = cellfun(@(l) regexp(l, '",(.*)', 'tokens'), mlines);
         values = cellfun(@(m) m{1}, values, 'UniformOutput', false);
         values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false);
         values = cellfun(@(m) deserializer(m), values, 'UniformOutput', false);
