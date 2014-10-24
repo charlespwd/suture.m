@@ -19,6 +19,21 @@ classdef Memo
       % initialize store
       fileid = fopen(filename);
       if (fileid ~= -1) % file exists
+        [hashes, values] = memo.parsefile(fileid);
+        memo.store = containers.Map(hashes, values);
+        fclose(fileid);
+      else
+        memo.store = containers.Map;
+      end
+    end
+
+    % What's going on below is unclear, so I feel inclined to give you some
+    % details on how it works.
+    % It parses the data in the file, line by line, following this format:
+    %  - Whatever is in quotes is the key
+    %  - Whatever follows a `",` is the value, could be anything, as long as
+    %  serializer returns an array-like value. (array or number)
+    function [hashes, values] = parsefile(memo, fileid)
         l = fgetl(fileid);
         i = 1;
         while ischar(l)
@@ -31,14 +46,10 @@ classdef Memo
         values = cellfun(@(l) regexp(l, '",(.*)', 'tokens'), mlines);
         values = cellfun(@(m) m{1}, values, 'UniformOutput', false);
         values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false);
-        values = cellfun(@(m) deserializer(m), values, 'UniformOutput', false);
-        memo.store = containers.Map(hashes, values);
-        fclose(fileid);
-      else
-        memo.store = containers.Map;
-      end
+        values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false);
     end
 
+    % Read a value from the memoization table, or enter a value in it
     function value = read(memo, x)
       hash = memo.hasher(x);
       if memo.store.isKey(hash)
@@ -53,6 +64,8 @@ classdef Memo
       end
     end
 
+    % remove a keyvalue pair from the file
+    % Careful, not optimized whatsoever.
     function remove = remove(memo, x)
       hash = memo.hasher(x);
       if memo.store.isKey(hash)
@@ -61,6 +74,7 @@ classdef Memo
       end
     end
 
+    % Write all key value pairs to the file
     function writeAll(memo)
       fid = fopen(memo.filename, 'w');
       hashes = memo.store.keys;
@@ -75,6 +89,8 @@ classdef Memo
       fclose(fid);
     end
 
+    % Write one hash/value pair to the file optionally write to the fid passed,
+    % open file in append mode by default
     function write(memo, hash, value, fid)
       closeit = false;
       if nargin < 4
