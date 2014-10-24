@@ -1,4 +1,6 @@
 function [z, memo] = ftmemo(FT, force, memo)
+  % Reconstructs a shape from FourierTerms with fd_nonpolar using a persistent
+  % memoization table, with option to force the calculation to happen.
   if nargin < 2
     force = false;
   end
