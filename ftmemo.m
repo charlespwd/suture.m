@@ -5,7 +5,7 @@ function [z, memo] = ftmemo(FT, force, memo)
     force = false;
   end
 
-  if nargin < 3
+  if nargin < 3 || ~isa(memo, 'memo')
     filename = '_ftmemo.db';
     dt = 0.1;
     t_interval = 0:dt:(2*pi+dt);
