@@ -27,7 +27,7 @@ function z = fd_nonpolar(FT, t_final, delta_0)
 
   As = FT.cos_terms;   % Set of A_k
   Bs = FT.sin_terms;   % Set of B_k
-  N = FT.truncation_size;
+  N = FT.truncation_length;
   d_0 = delta_0;
 
   % Helper functions

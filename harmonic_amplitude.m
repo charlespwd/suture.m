@@ -1,8 +1,8 @@
 function [ A ] = harmonic_amplitude(k, n)
     %HARMONIC_AMPLITUDE  creates an array which satisfies
-    % the closed curve conditions for the reconstruction of a 
+    % the closed curve conditions for the reconstruction of a
     % closed curve with Fourier Descriptors
-    if k < 2 
+    if k < 2
         error('please enter k: k >= 2')
     end
 
