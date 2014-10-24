@@ -33,7 +33,7 @@ classdef Memo
     hasher,
     serializer,
     deserializer,
-    store,
+    store, % the memoization table, a hashmap
   end
 
   methods
@@ -44,7 +44,7 @@ classdef Memo
       memo.serializer = serializer;
       memo.deserializer = deserializer;
 
-      % initialize store
+      % initialize the memoization store
       fileid = fopen(filename);
       if (fileid ~= -1) % file exists
         [hashes, values] = memo.parsefile(fileid);
