@@ -4,5 +4,5 @@ FD = FourierDescriptors(As, as);
 dt = 0.05
 t_interval = 0:dt:(2*pi+dt);
 rot = -pi/2;
-z = arrayfun(@(t) fd_reconstruct_z_difference_at_t(FD, t, rot), t_interval);
+z = arrayfun(@(t) fd_polar(FD, t, rot), t_interval);
 plot(z);

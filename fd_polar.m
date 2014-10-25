@@ -1,8 +1,8 @@
-function z = fd_reconstruct_z_difference_at_t(FD, t_final, delta_0)
-% FD_RECONSTRUCT_z_DIFFERENCE_AT_T  Reconstruct the difference in z
+function z = fd_polar(FD, t_final, delta_0)
+% FD_POLAR  Reconstruct the difference in z
 %   between z(0), and z(t_final) from the Fourier Descriptors FD.
 %
-%   z = FD_RECONSTRUCT_Z_DIFFERENCE_AT_T(FD, t_final)
+%   z = FD_POLAR(FD, t_final)
 %
 % @param FD  an array [A_k, alpha_k], k = 1 -> N
 % @param t_final  a scalar, the point at which the difference wishes to be calculated

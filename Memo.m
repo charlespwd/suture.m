@@ -82,18 +82,15 @@ classdef Memo
       % READ  read a value from the memoization table, or enter a value in it
       hash = memo.hasher(x);
       if memo.store.isKey(hash)
-        value = memo.deserializer(memo.store(hash));
-        if length(value) > 1
-          value = value(1:find(value, 1, 'last')); % trick to strip 0's from the end of the vector
-        end
+        value = memo.store(hash);
       else
         value = memo.func(x);
-        memo.store(hash) = memo.serializer(value);
+        memo.store(hash) = value;
         memo.write(hash, value);
       end
     end
 
-    function remove = remove(memo, x)
+    function remove(memo, x)
       % REMOVE  remove a keyvalue pair from the file
       %
       % Careful, not optimized whatsoever.
@@ -108,7 +105,13 @@ classdef Memo
       % WRITEALL  clear the file and rewrite all key value pairs
       fid = fopen(memo.filename, 'w');
       hashes = memo.store.keys;
-      c2map = @(x) cellfun(@(c) c', x)';
+      % I appologize for the mess below, dealing with cell arrays and number
+      % arrays, and what not proved to be a bit of a pain. The following takes
+      % the cellarray that is memo.store.values, transposes each of its cell
+      % elements, and then transposes the cell array, and then thransforms it
+      % into a matrix and then transpose that... Oh my... What you get is a
+      % matrix of where each row is an entry corresponding to a hash.
+      c2map = @(x) cell2mat(cellfun(@(c) c', x, 'UniformOutput', false)')';
       values = memo.store.values;
       values = c2map(values);
       for i = 1:size(values, 1)
