@@ -55,31 +55,6 @@ classdef Memo
       end
     end
 
-    function [hashes, values] = parsefile(memo, fileid)
-      % PARSEFILE  parses the file into a set of hashes and values
-      l = fgetl(fileid);
-      i = 1;
-      while ischar(l)
-        mlines{i} = l; %#ok
-        i = i + 1;
-        l = fgetl(fileid);
-      end
-      hashes = memo.parseHashesFromLines(mlines);
-      values = memo.parseValuesFromLines(mlines);
-    end
-
-    function hashes = parseHashesFromLines(~, mlines)
-      hashes = cellfun(@(l) regexp(l, '"(.*)"', 'tokens'), mlines);
-      hashes = cellfun(@(m) m{1}, hashes, 'UniformOutput', false);
-    end
-
-    function values = parseValuesFromLines(memo, mlines)
-      values = cellfun(@(l) regexp(l, '",(.*)', 'tokens'), mlines);
-      values = cellfun(@(m) m{1}, values, 'UniformOutput', false);
-      values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false); % turn string into real array
-      values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false); % deserialize real array into <T>
-    end
-
     function value = read(memo, x)
       % READ  read a value from the memoization table, or enter a value in it
       hash = memo.hasher(x);
@@ -102,7 +77,9 @@ classdef Memo
         memo.writeAll()
       end
     end
+  end
 
+  methods(Access=private)
     function writeAll(memo)
       % WRITEALL  clear the file and rewrite all key value pairs
       fid = fopen(memo.filename, 'w');
@@ -143,6 +120,30 @@ classdef Memo
       if closeit
         fclose(fid);
       end
+    end
+
+    function [hashes, values] = parsefile(memo, fileid)
+      % PARSEFILE  parses the file into a set of hashes and values
+      mlines = memo.readlines(fileid);
+      hashes = memo.parseHashesFromLines(mlines);
+      values = memo.parseValuesFromLines(mlines);
+    end
+
+    function mlines = readlines(~, fileid)
+      mlines = textscan(fileid, '%s', 'delimiter', '\n');
+      mlines = mlines{1};
+    end
+
+    function hashes = parseHashesFromLines(~, mlines)
+      hashes = cellfun(@(l) regexp(l, '"(.*)"', 'tokens'), mlines);
+      hashes = cellfun(@(m) m{1}, hashes, 'UniformOutput', false);
+    end
+
+    function values = parseValuesFromLines(memo, mlines)
+      values = cellfun(@(l) regexp(l, '",(.*)', 'tokens'), mlines);
+      values = cellfun(@(m) m{1}, values, 'UniformOutput', false);
+      values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false); % turn string into real array
+      values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false); % deserialize real array into <T>
     end
   end
 end
