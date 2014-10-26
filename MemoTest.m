@@ -81,7 +81,7 @@ classdef MemoTest < matlab.unittest.TestCase
     end
 
     function testWithComplicatedSerializerAndOutput(testCase)
-      filename = '_trashshit.db';
+      filename = '_tmp.db.db';
 
       f = @(x) [x, 1i*x, x+x];
       hasher = @(x) ['xxx' num2str(x)];
@@ -96,7 +96,7 @@ classdef MemoTest < matlab.unittest.TestCase
     end
 
     function testWithComplicatedHasher(testCase)
-      filename = '_trashshit.db';
+      filename = '_tmp.db.db';
 
       f = @(x) [x.left x.right];
       hasher = @(x) ['"{' num2str(x.left), ',' num2str(x.right) '}"'];

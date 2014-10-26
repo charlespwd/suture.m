@@ -55,27 +55,29 @@ classdef Memo
       end
     end
 
-    % What's going on below is unclear, so I feel inclined to give you some
-    % details on how it works.
-    % It parses the data in the file, line by line, following this format:
-    %  - Whatever is in quotes is the key
-    %  - Whatever follows a `",` is the value, could be anything, as long as
-    %  serializer returns an array-like value. (array or number)
     function [hashes, values] = parsefile(memo, fileid)
       % PARSEFILE  parses the file into a set of hashes and values
       l = fgetl(fileid);
       i = 1;
       while ischar(l)
-        mlines{i} = l;
+        mlines{i} = l; %#ok
         i = i + 1;
         l = fgetl(fileid);
       end
+      hashes = memo.parseHashesFromLines(mlines);
+      values = memo.parseValuesFromLines(mlines);
+    end
+
+    function hashes = parseHashesFromLines(~, mlines)
       hashes = cellfun(@(l) regexp(l, '"(.*)"', 'tokens'), mlines);
       hashes = cellfun(@(m) m{1}, hashes, 'UniformOutput', false);
+    end
+
+    function values = parseValuesFromLines(memo, mlines)
       values = cellfun(@(l) regexp(l, '",(.*)', 'tokens'), mlines);
       values = cellfun(@(m) m{1}, values, 'UniformOutput', false);
-      values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false);
-      values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false);
+      values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false); % turn string into real array
+      values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false); % deserialize real array into <T>
     end
 
     function value = read(memo, x)
