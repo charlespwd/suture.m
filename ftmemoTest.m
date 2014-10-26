@@ -4,11 +4,11 @@ classdef ftmemoTest < matlab.unittest.TestCase
       memo = 0;
       fn = '_ftmemotest.db';
       z = @(t) sin(t) + 1i*cos(t) -1i;
-      dt = .1;
+      dt = 3;
       t_interval = 0:dt:(2*pi+dt);
       Z = arrayfun(@(t) z(t), t_interval);
-      testCase.verifyEqual(ftmemo(FourierTerms(0, 0), false, memo, fn), Z, 'AbsTol', 0.01);
-      testCase.verifyEqual(ftmemo(FourierTerms(0, 0), false, memo, fn), Z, 'AbsTol', 0.01);
+      testCase.verifyEqual(ftmemo(FourierTerms(0, 0), false, memo, fn, dt), Z, 'AbsTol', 0.01);
+      testCase.verifyEqual(ftmemo(FourierTerms(0, 0), false, memo, fn, dt), Z, 'AbsTol', 0.01);
       delete(fn)
     end
 
@@ -16,7 +16,7 @@ classdef ftmemoTest < matlab.unittest.TestCase
       serializer = @(x) [real(x) imag(x)];
       deserializer = @(x) x(1:length(x)/2) + 1i*x(length(x)/2+1:length(x));
       z = @(t) sin(t) + 1i*cos(t) -1i;
-      dt = .1;
+      dt = 1;
       t_interval = 0:dt:(2*pi+dt);
       Z = arrayfun(@(t) z(t), t_interval);
       Zp = deserializer(serializer(Z));
@@ -29,7 +29,7 @@ classdef ftmemoTest < matlab.unittest.TestCase
       z = @(t) sin(t) + 1i*cos(t) -1i;
       memo = 0;
 
-      dt = 2;
+      dt = 3;
       [~,    memo] = ftmemo(FourierTerms(0, 1), true, memo, fn, dt);
       [~,    memo] = ftmemo(FourierTerms(0, 2), true, memo, fn, dt);
       [Zact1, memo] = ftmemo(FourierTerms(0, 0), true, memo, fn, dt);
@@ -37,7 +37,7 @@ classdef ftmemoTest < matlab.unittest.TestCase
       Zexp1 = arrayfun(@(t) z(t), t_interval(dt));
       testCase.verifyEqual(Zact1, Zexp1, 'AbsTol', 0.01);
 
-      dt = 1.5;
+      dt = 2*pi;
       [Zact, ~] = ftmemo(FourierTerms(0, 0), true, memo, fn, dt);
       Zexp = arrayfun(@(t) z(t), t_interval(dt));
       % testCase.verifyNotEqual(Zact, Zact1, 'AbsTol', 0.01);
