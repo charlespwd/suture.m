@@ -111,22 +111,29 @@ classdef Memo
         fid = fopen(memo.filename, 'a');
         closeit = true;
       end
-      fprintf(fid, '"%s"', hash);
-      serialized = memo.serializer(value);
-      for i = 1:length(serialized)
-       fprintf(fid, ',%g', serialized(i));
-      end
+      memo.writeHash(hash, fid);
+      memo.writeValue(value, fid);
       fprintf(fid, '\n');
       if closeit
         fclose(fid);
       end
     end
 
+    function writeHash(~, hash, fid)
+      fprintf(fid, '"%s"', hash);
+    end
+
+    function writeValue(memo, value, fid)
+      serialized = memo.serializer(value);
+      for i = 1:length(serialized)
+       fprintf(fid, ',%g', serialized(i));
+      end
+    end
+
     function [hashes, values] = parsefile(memo, fileid)
       % PARSEFILE  parses the file into a set of hashes and values
       mlines = memo.readlines(fileid);
-      hashes = memo.parseHashesFromLines(mlines);
-      values = memo.parseValuesFromLines(mlines);
+      [hashes, values] = memo.extractHashesAndValuesFromLines(mlines);
     end
 
     function mlines = readlines(~, fileid)
@@ -134,14 +141,10 @@ classdef Memo
       mlines = mlines{1};
     end
 
-    function hashes = parseHashesFromLines(~, mlines)
-      hashes = cellfun(@(l) regexp(l, '"(.*)"', 'tokens'), mlines);
-      hashes = cellfun(@(m) m{1}, hashes, 'UniformOutput', false);
-    end
-
-    function values = parseValuesFromLines(memo, mlines)
-      values = cellfun(@(l) regexp(l, '",(.*)', 'tokens'), mlines);
-      values = cellfun(@(m) m{1}, values, 'UniformOutput', false);
+    function [hashes, values] = extractHashesAndValuesFromLines(memo, mlines)
+      hv = cellfun(@(l) regexp(l, '"(.*)",(.*)', 'tokens'), mlines);
+      hashes = cellfun(@(m) m{1}, hv, 'UniformOutput', false);
+      values = cellfun(@(m) m{2}, hv, 'UniformOutput', false);
       values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false); % turn string into real array
       values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false); % deserialize real array into <T>
     end
