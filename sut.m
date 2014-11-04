@@ -1,18 +1,21 @@
-function z = sut(isize, a, b, dt)
+function z = sut(N, Ph, Pphi, dt)
+  % SUT  plot suture with given N, P(h) and P(phi)
+  map = @(x, f) arrayfun(f, x);
+
   if nargin < 4
-    dt = 1;
+    dt = 0.05;
   end
 
   if nargin < 3
-    b = 0.005;
+    Pphi = 0.005;
   end
 
   if nargin < 2
-    a = 0.015;
+    Ph = 0.015;
   end
 
-  Ahs = rand_sphere_coord(a, isize);
-  Aps = rand_sphere_coord(b, isize);
-  z = arrayfun(@(t) suture(Ahs, Aps, t), 1:dt:isize);
+  Ahs   = abs(rand_sphere_coord(sqrt(Ph), N));
+  Aphis = abs(rand_sphere_coord(sqrt(Pphi), N));
+  z = map(0:dt:(2*pi+dt), @(t) suture(Ahs, Aphis, t));
   plot(z);
 end
