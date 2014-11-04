@@ -5,6 +5,11 @@ function Z = suture(AHs, APs, n_final)
   % Scaled such that the length of the half-suture is pi
   % AHs(i) = Fourier amplitudes for the frequency i
   % APs(i) = Fourier amplitudes for the frequency i
+  %
+  % Suggested reading:
+  %  Gildner, Raymond. "A Fourier Method to Describe And Compare
+  %  Suture Patterns", Paleontologia Electronica, 2003.
+
   Ah = @(i) AHs(i+1);
   Ap = @(i) APs(i+1);
   N = length(AHs);
