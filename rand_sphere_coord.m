@@ -14,6 +14,14 @@ function x = rand_sphere_coord(r, N)
   xi_max = @(x) sqrt(r^2 - sum(x.*x));
   for i = 1:N-1
     x(i) = xi_max(x)*rand(1);
+    x(i) = randflip(x(i));
   end
   x(N) = xi_max(x); % the rest
+end
+
+function y = randflip(x)
+  y = x;
+  if rand(1) > 0.5
+    y = -x;
+  end
 end
