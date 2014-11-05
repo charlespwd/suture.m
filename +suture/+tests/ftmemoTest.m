@@ -1,6 +1,7 @@
 classdef ftmemoTest < matlab.unittest.TestCase
   methods (Test)
     function testShouldBeACircle(testCase)
+      import suture.*
       memo = 0;
       fn = '_ftmemotest.db';
       z = @(t) sin(t) + 1i*cos(t) -1i;
@@ -13,6 +14,7 @@ classdef ftmemoTest < matlab.unittest.TestCase
     end
 
     function testSerializerDeserializer(testCase)
+      import suture.*
       serializer = @(x) [real(x) imag(x)];
       deserializer = @(x) x(1:length(x)/2) + 1i*x(length(x)/2+1:length(x));
       z = @(t) sin(t) + 1i*cos(t) -1i;
@@ -24,6 +26,7 @@ classdef ftmemoTest < matlab.unittest.TestCase
     end
 
     function testForceUpdate(testCase)
+      import suture.*
       fn = '_ftmemotest.db';
       t_interval = @(dt) 0:dt:(2*pi+dt);
       z = @(t) sin(t) + 1i*cos(t) -1i;

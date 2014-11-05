@@ -1,6 +1,8 @@
 function [z, memo] = ftmemo(FT, force, memo, filename, dt)
   % Reconstructs a shape from FourierTerms with fd_nonpolar using a persistent
   % memoization table, with option to force the calculation to happen.
+  import suture.*
+
   if nargin < 5
     dt = 0.1;
   end

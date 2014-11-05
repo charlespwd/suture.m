@@ -21,7 +21,7 @@ function ZofT = fd_polar(FD, T, delta_0)
     delta_0 = 0;
   end
 
-  if (~isa(FD, 'FourierDescriptors'))
+  if (~isa(FD, 'suture.FourierDescriptors'))
     error('Passed FD is not an instance of FourierDescriptors')
   end
 

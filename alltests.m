@@ -1,5 +1,6 @@
 import matlab.unittest.TestSuite;
-clear suiteFolder
+import suture.*;
+clear suitePackage
 clear result
-suiteFolder = TestSuite.fromFolder(pwd);
-result = run(suiteFolder)
+suitePackage = TestSuite.fromPackage('suture','IncludingSubpackages',true);
+result = run(suitePackage)

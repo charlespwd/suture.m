@@ -22,7 +22,7 @@ function ZofT = fd_nonpolar(FT, T, delta_0)
     delta_0 = 0;
   end
 
-  if (~isa(FT, 'FourierTerms'))
+  if (~isa(FT, 'suture.FourierTerms'))
     error('Passed FT is not an instance of FourierTerms')
   end
 

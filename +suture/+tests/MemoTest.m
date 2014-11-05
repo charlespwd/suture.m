@@ -19,6 +19,7 @@ classdef MemoTest < matlab.unittest.TestCase
 
   methods (Test)
     function testInitFromEmptyFile(testCase)
+      import suture.Memo
       filename = 'fakenonexistingdb.db';
       warning('off', 'MATLAB:DELETE:FileNotFound');
       delete(filename);
@@ -38,6 +39,7 @@ classdef MemoTest < matlab.unittest.TestCase
     end
 
     function testInitFromNonEmptyFile(testCase)
+      import suture.Memo
       filename = testCase.fname;
       f = @(x) x^2;
       hasher = @(x) x*2;
@@ -54,6 +56,7 @@ classdef MemoTest < matlab.unittest.TestCase
     end
 
     function testReadingFromTheStoreWhenItsInTheStore(testCase)
+      import suture.Memo
       filename = testCase.fname;
       f = @(x) x + 10;
       hasher = @(x) num2str(x);
@@ -66,6 +69,7 @@ classdef MemoTest < matlab.unittest.TestCase
     end
 
     function testReadingFromTheStoreWhenItsNotInTheStore(testCase)
+      import suture.Memo
       filename = testCase.fname;
       f = @(x) x + 10;
       hasher = @(x) num2str(x);
@@ -81,6 +85,7 @@ classdef MemoTest < matlab.unittest.TestCase
     end
 
     function testWithComplicatedSerializerAndOutput(testCase)
+      import suture.Memo
       filename = '_tmp.db.db';
 
       f = @(x) [x, 1i*x, x+x];
@@ -96,6 +101,7 @@ classdef MemoTest < matlab.unittest.TestCase
     end
 
     function testWithComplicatedHasher(testCase)
+      import suture.Memo
       filename = '_tmp.db.db';
 
       f = @(x) [x.left x.right];

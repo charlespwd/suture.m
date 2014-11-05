@@ -1,5 +1,6 @@
 function z = sut(N, Pphi, Ph, dt)
   % SUT  plot suture with given N, P(h) and P(phi)
+  import suture.rand_sphere_coord suture.suture;
 
   if nargin < 2
     Pphi = 0.10;
