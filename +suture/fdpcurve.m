@@ -1,8 +1,7 @@
-function ZofT = fd_polar(FD, T, delta_0)
-% FD_POLAR  Reconstruct the difference in z
-%   between z(0), and z(T) from the Fourier Descriptors FD.
+function ZofT = fdpcurve(FD, T, delta_0)
+% FDPCURVE  reconstruct a plane curve with Fourier Descriptors
 %
-%   z = FD_POLAR(FD, T)
+%   z = FDPCURVE(FD, T)
 %
 % @param FD  an array [A_k, alpha_k], k = 1 -> N
 % @param T  a scalar or an array, the point(s) at which the difference wishes

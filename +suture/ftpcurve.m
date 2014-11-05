@@ -1,9 +1,8 @@
-function ZofT = fd_nonpolar(FT, T, delta_0)
-% FD_NONPOLAR  Reconstruct the difference in z
-%   between z(0), and z(T) from the Fourier Series Terms FT.
+function ZofT = ftpcurve(FT, T, delta_0)
+% FTPCURVE  reconstruct a plane cuver with fourier terms
 %
-%   z = FD_NONPOLAR(FT, T)
-%   z = FD_NONPOLAR(FT, T, delta_0), delta_0 is the starting angle
+%   z = FTPCURVE(FT, T)
+%   z = FTPCURVE(FT, T, delta_0), delta_0 is the starting angle
 %
 % @param FT an array [As, Bs], k = 0 -> N
 % @param T  a scalar or vector, the point(s) at which the difference
