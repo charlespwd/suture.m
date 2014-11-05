@@ -1,12 +1,13 @@
-function z = fd_nonpolar(FT, t_final, delta_0)
+function ZofT = fd_nonpolar(FT, T, delta_0)
 % FD_NONPOLAR  Reconstruct the difference in z
-%   between z(0), and z(t_final) from the Fourier Series Terms FT.
+%   between z(0), and z(T) from the Fourier Series Terms FT.
 %
-%   z = FD_NONPOLAR(FT, t_final)
-%   z = FD_NONPOLAR(FT, t_final, delta_0), delta_0 is the starting angle
+%   z = FD_NONPOLAR(FT, T)
+%   z = FD_NONPOLAR(FT, T, delta_0), delta_0 is the starting angle
 %
 % @param FT an array [As, Bs], k = 0 -> N
-% @param t_final  a scalar, the point at which the difference wishes to be calculated
+% @param T  a scalar or vector, the point(s) at which the difference
+%   wishes to be calculated
 % @return [x, y] = z(t) - z(0) = x(t) - x(0) + i(y(t) - y(0)
 %
 % Supporting equations:
@@ -60,5 +61,11 @@ function z = fd_nonpolar(FT, t_final, delta_0)
   scale_factor = 1;
 
   % z(t) - z(0) = \frac{L}{2\pi} \int_0^t exp(i * \phi^*(t)) dt
-  z = scale_factor * integral(exp_phi_star, 0, t_final, 'ArrayValued', true);
+  z = @(t) scale_factor * integral(exp_phi_star, 0, t, 'ArrayValued', true);
+
+  if length(T) == 1
+    ZofT = z(T);
+  else
+    ZofT = arrayfun(z, T);
+  end
 end

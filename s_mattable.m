@@ -14,7 +14,7 @@ for k = 1:length(A2)
         As = [A1(i), A2(k)];
         as = [a1(j), a2(m)];
         FD = FourierDescriptors(As, as);
-        z = arrayfun(@(t) fd_polar(FD, t, pi/2), t_interval);
+        z = fd_polar(FD, t_interval, pi/2);
         subplot(length(A1), length(a1), (i-1)*(length(a1)) + j)
         plot(z);
         axis square;

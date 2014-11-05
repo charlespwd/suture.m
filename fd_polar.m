@@ -1,11 +1,12 @@
-function z = fd_polar(FD, t_final, delta_0)
+function ZofT = fd_polar(FD, T, delta_0)
 % FD_POLAR  Reconstruct the difference in z
-%   between z(0), and z(t_final) from the Fourier Descriptors FD.
+%   between z(0), and z(T) from the Fourier Descriptors FD.
 %
-%   z = FD_POLAR(FD, t_final)
+%   z = FD_POLAR(FD, T)
 %
 % @param FD  an array [A_k, alpha_k], k = 1 -> N
-% @param t_final  a scalar, the point at which the difference wishes to be calculated
+% @param T  a scalar or an array, the point(s) at which the difference wishes
+%   to be calculated
 % @return [x, y] = z(t) - z(0) = x(t) - x(0) + i(y(t) - y(0)
 %
 % Supporting equations:
@@ -34,9 +35,6 @@ function z = fd_polar(FD, t_final, delta_0)
   A = @(k) As(k);
   alpha = @(k) Alphas(k);
 
-  % mu_0 = sum_{k=1}^N A_k * cos(\alpha_k)
-  %u_0 = sum(arrayfun(@(k) A(k)*cos(alpha(k)), 1:N));
-
   % gamma(k, t) = A_k * cos(kt - \alpha_k)
   gamma = @(t, k) A(k) * cos(k*t - alpha(k));
 
@@ -62,5 +60,11 @@ function z = fd_polar(FD, t_final, delta_0)
   scale_factor = 1;
 
   % z(t) - z(0) = \frac{L}{2\pi} \int_0^t exp(i * \phi^*(t)) dt
-  z = scale_factor * integral(exp_phi_star, 0, t_final, 'ArrayValued', true);
+  z = @(t) scale_factor * integral(exp_phi_star, 0, t, 'ArrayValued', true);
+
+  if length(T) == 1
+    ZofT = z(T);
+  else
+    ZofT = arrayfun(z, T);
+  end
 end
