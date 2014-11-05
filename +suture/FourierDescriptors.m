@@ -1,7 +1,7 @@
 classdef FourierDescriptors
-  % FOURIERDESCRIPTORS  Literally, what they are.
+  % FOURIERDESCRIPTORS  A set of polar Fourier coefficients
   %
-  %   FD = FourierDescriptors(As, Alphas, delta_0, mu_0)
+  %   FD = FourierDescriptors(As, Alphas)
   %
   % Suggested readings paper:
   %   Zahn, Charles, "Fourier Descriptors for Plane Closed Curves.", 1972

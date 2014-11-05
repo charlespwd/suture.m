@@ -1,5 +1,5 @@
 classdef FourierTerms
-  % FOURIERTERMS  Literally, what they are.
+  % FOURIERTERMS  A set of rectangular Fourier coefficients
   %
   %   FT = FourierTerms(As, Bs)
   %
