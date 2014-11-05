@@ -12,8 +12,8 @@ function ZofT = suture(Aphi, Ahs, T)
   % Ahs(i) = Fourier amplitudes for the frequency i
   %
   % Suggested reading:
-  %  Gildner, Raymond. "A Fourier Method to Describe And Compare
-  %  Suture Patterns", Paleontologia Electronica, 2003.
+  %  Gildner, Raymond. "A Fourier Method to Describe And Compare Suture
+  %  Patterns", Paleontologia Electronica, 2003.
   %    NOTE: See Eq 3A, 3B with n renormalized with t/pi = n/N
   %    NOTE: the N at the top of the sum is not the same as the N in the sum.
   %    This is not obvious.
