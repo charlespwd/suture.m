@@ -14,14 +14,12 @@ function x = rand_sphere_coord(r, N)
   xi_max = @(x) sqrt(r^2 - sum(x.*x));
   for i = 1:N-1
     x(i) = xi_max(x)*rand(1);
-    x(i) = randflip(x(i));
   end
   x(N) = xi_max(x); % the rest
+  x = randnegate(x, N); % randomly negate coordinates
 end
 
-function y = randflip(x)
-  y = x;
-  if rand(1) > 0.5
-    y = -x;
-  end
+function y = randnegate(x, N)
+  flipit = rand(N, 1) > 0.5; % half percent chance of 0 or 1
+  y = (-1).^(flipit) .* x;
 end
