@@ -27,6 +27,7 @@ classdef Memo
   %     memo.read(@(x) sin(x)) % instantaneous, bigO(1)
   %
   %   Since the results are saved in a file, they can be recovered, shared, and more(!).
+
   properties
     filename,
     func,
@@ -80,22 +81,33 @@ classdef Memo
   end
 
   methods(Access=private)
+    function [hashes, values] = parsefile(memo, fileid)
+      % PARSEFILE  parses the file into a set of hashes and values
+      mlines = memo.readlines(fileid);
+      [hashes, values] = memo.extractHashesAndValuesFromLines(mlines);
+    end
+
+    function mlines = readlines(~, fileid)
+      mlines = textscan(fileid, '%s', 'delimiter', '\n');
+      mlines = mlines{1};
+    end
+
+    function [hashes, values] = extractHashesAndValuesFromLines(memo, mlines)
+      hv = cellfun(@(l) regexp(l, '"(.*)",(.*)', 'tokens'), mlines);
+      hashes = cellfun(@(m) m{1}, hv, 'UniformOutput', false);
+      values = cellfun(@(m) m{2}, hv, 'UniformOutput', false);
+      values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false); % turn string into real array
+      values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false); % deserialize real array into <T>
+    end
+
     function writeAll(memo)
       % WRITEALL  clear the file and rewrite all key value pairs
       fid = fopen(memo.filename, 'w');
       hashes = memo.store.keys;
-      % I appologize for the mess below, dealing with cell arrays and number
-      % arrays, and what not proved to be a bit of a pain. The following takes
-      % the cellarray that is memo.store.values, transposes each of its cell
-      % elements, and then transposes the cell array, and then thransforms it
-      % into a matrix and then transpose that... Oh my... What you get is a
-      % matrix of where each row is an entry corresponding to a hash.
-      c2map = @(x) cell2mat(cellfun(@(c) c', x, 'UniformOutput', false)')';
       values = memo.store.values;
-      values = c2map(values);
       for i = 1:size(values, 1)
         hash = hashes{i};
-        value = values(i, :);
+        value = values{i};
         memo.write(hash, value, fid);
       end
       fclose(fid);
@@ -128,25 +140,6 @@ classdef Memo
       for i = 1:length(serialized)
        fprintf(fid, ',%g', serialized(i));
       end
-    end
-
-    function [hashes, values] = parsefile(memo, fileid)
-      % PARSEFILE  parses the file into a set of hashes and values
-      mlines = memo.readlines(fileid);
-      [hashes, values] = memo.extractHashesAndValuesFromLines(mlines);
-    end
-
-    function mlines = readlines(~, fileid)
-      mlines = textscan(fileid, '%s', 'delimiter', '\n');
-      mlines = mlines{1};
-    end
-
-    function [hashes, values] = extractHashesAndValuesFromLines(memo, mlines)
-      hv = cellfun(@(l) regexp(l, '"(.*)",(.*)', 'tokens'), mlines);
-      hashes = cellfun(@(m) m{1}, hv, 'UniformOutput', false);
-      values = cellfun(@(m) m{2}, hv, 'UniformOutput', false);
-      values = cellfun(@(m) eval(['[', m, ']']), values, 'UniformOutput', false); % turn string into real array
-      values = cellfun(@(m) memo.deserializer(m), values, 'UniformOutput', false); % deserialize real array into <T>
     end
   end
 end
