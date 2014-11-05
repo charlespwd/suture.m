@@ -1,6 +1,6 @@
 function [z, memo] = ftmemo(FT, force, memo, filename, dt)
   % FTMEMO  memoized version of ftpcurve
-  import suture.*
+  import suture.ftpcurve suture.Memo
 
   if nargin < 5
     dt = 0.1;

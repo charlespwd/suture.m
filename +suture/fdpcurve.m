@@ -3,13 +3,16 @@ function ZofT = fdpcurve(FD, T, d_0)
 %
 %   z = FDPCURVE(FD, T)
 %
-% @param FD  an array [A_k, alpha_k], k = 1 -> N
+% @param FD  an array [A_k, alpha_k], k = 1:N
 % @param T  a scalar or an array, the point(s) at which the difference wishes
 %   to be calculated
 % @return [x, y] = z(t) - z(0) = x(t) - x(0) + i(y(t) - y(0)
 %
+% Assumptions:
+%   1. The curve is parametrize by arc length.
+%
 % Supporting equations:
-%   z(t) - z(0) = \frac{L}{2\pi} \int_0^t exp(i * \phi^*(t)) dt
+%   z(t) - z(0) = \int_0^t exp(i * \phi^*(t)) dt
 %     \phi*(t) = -t + \d_0 + \mu_0 + \sum_{k=1}^n \gamma(k, t)
 %     \gamma = A_k * cos(kt - \alpha_k)
 %
