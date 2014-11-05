@@ -5,14 +5,17 @@ Hi there.
 You're reading this because you decided to jump into this code.
 Lucky you. I'm trying to make it easy for you (and me).
 
-As I am writing this, I have three different ways to create planar
+As I am writing this, I have four different ways to create planar
 curves in the plane with Fourier Series.
 
   1. `SUTURE(Aphi, Ah, t)`  create a suture curve with the method
 presented in [1].
-  2. `FDPCURVE(FD, t)`  this one creates a planar curve with
+  2. `POWERSUTURE(Pphi, Ph, t)`  create a suture curve with the method
+presented in [1], but with the Fourier coefficients `Aphi`, `Ah`,
+chosen to be sitting on sphere of radius `sqrt(Pphi)`, `sqrt(Ph)`.
+  3. `FDPCURVE(FD, t)`  this one creates a planar curve with
 polar Fourier **Descriptors** (it's a technical term) [2].
-  3. `FTPCURVE(FT, t)`  same method as above, but instead of
+  4. `FTPCURVE(FT, t)`  same method as above, but instead of
 using the polar terms, don't do the transformation and reconstruct a
 curve with simple rectangular Fourier terms. [2]
 
@@ -34,7 +37,6 @@ specific suite of tests.
 Search for `unittest` in the MATLAB docs. The docs are decent enough
 to get you started writing your own. Or take a look at any `xxxxxTest`
 files in `+suture/+tests/`.
-
 
 ## License
 MIT.
