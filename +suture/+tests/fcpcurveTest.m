@@ -3,14 +3,14 @@ classdef fcpcurveTest < matlab.unittest.TestCase
     function testWorking(testCase)
       import suture.fcpcurve
       actual = fcpcurve(0, 0);
-      expected = 0;
+      expected = complex(0);
       testCase.verifyEqual(actual, expected);
     end
 
     function testBoundaryConditions(testCase)
       import suture.fcpcurve
       actual = fcpcurve(1, [0 2*pi]);
-      expected = [0, 0];
+      expected = complex([0, 0]);
       testCase.verifyEqual(imag(actual), imag(expected), 'AbsTol', eps);
     end
 

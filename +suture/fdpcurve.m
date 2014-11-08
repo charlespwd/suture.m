@@ -31,7 +31,7 @@ function ZofT = fdpcurve(FD, T, d_0)
   sum_terms    = @(t) sum(arrayfun(@(k) term(t, k), 1:N));
   phi_star     = @(t) -t + d_0 + u_0 + sum_terms(t);
   exp_phi_star = @(t) exp(1i * phi_star(t));
-  z            = @(t) integral(exp_phi_star, 0, t, 'ArrayValued', true);
+  z            = @(t) complex(integral(exp_phi_star, 0, t, 'ArrayValued', true));
 
   ZofT = arrayfun(z, T);
 end

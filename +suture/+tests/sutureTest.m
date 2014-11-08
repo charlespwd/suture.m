@@ -3,13 +3,13 @@ classdef sutureTest < matlab.unittest.TestCase
     function test0Case(testCase)
       A = 0;
       B = 0;
-      testCase.verifyEqual(suture.suture(A, B, 0), 0);
+      testCase.verifyEqual(suture.suture(A, B, 0), complex(0));
     end
 
     function test0CaseTwo(testCase)
       A = 0;
       B = 0;
-      testCase.verifyEqual(suture.suture(A, B, 0.5), 0.5);
+      testCase.verifyEqual(suture.suture(A, B, 0.5), complex(0.5) );
     end
 
     function test11case(testCase)

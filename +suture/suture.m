@@ -25,7 +25,7 @@ function ZofT = suture(Aphi, Ahs, T)
   Ah    = @(i) Ahs(i+1);
   theta = @(t) t - sum(arrayfun(@(i) Ap(i) * sin(i*t), 0:N-1));
   h     = @(t) 0 + sum(arrayfun(@(i) Ah(i) * cos(i*t), 0:N-1));
-  Z     = @(t) theta(t) + 1i*h(t);
+  Z     = @(t) complex(theta(t) + 1i*h(t));
 
   ZofT = arrayfun(Z, T);
 end

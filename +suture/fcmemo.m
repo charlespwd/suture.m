@@ -15,7 +15,7 @@ function [z, memo] = fcmemo(A, force, memo, filename, dt)
     f = @(A) fcpcurve(A, t_interval);
     hasher = @(x) strjoin(cellstr(['{' num2str(A) '}']));
     serializer = @(x) [real(x) imag(x)];
-    deserializer = @(x) x(1:length(x)/2) + 1i*x(length(x)/2+1:length(x));
+    deserializer = @(x) complex(x(1:length(x)/2) + 1i*x(length(x)/2+1:length(x)));
     memo = Memo(filename, f, hasher, serializer, deserializer);
   end
 

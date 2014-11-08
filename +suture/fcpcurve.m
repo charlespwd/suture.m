@@ -42,7 +42,7 @@ function ZofT = fcpcurve(A, T)
   terms        = @(t) arrayfun(@(k) term(t, k), 1:N);
   theta        = @(t) sum(terms(t));
   exp_i_theta  = @(t) exp(1i * theta(t));
-  z            = @(t) integral(exp_i_theta, 0, t, 'ArrayValued', true);
+  z            = @(t) complex(integral(exp_i_theta, 0, t, 'ArrayValued', true));
 
   ZofT = arrayfun(z, T);
 end
