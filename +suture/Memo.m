@@ -3,8 +3,8 @@ classdef Memo
   %
   %   memo = Memo(filename, f, hasher, serializer, deserializer)
   %    filename:  the filename(!)
-  %    f: <X> -> <T>,  the expensive function f(x). It takes a single input of type <X> and returns
-  %      something of type <T>
+  %    f: <X> -> <T>,  the expensive function f(x). It takes a single input of
+  %      type <X> and returns something of type <T>
   %    hasher: <X> -> String.  It takes the input to f and transforms it into a
   %      unique hash of type string.
   %        e.g. f(x) = x^2 , hasher = @(x) num2str(abs(x)).

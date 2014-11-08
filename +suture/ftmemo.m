@@ -10,7 +10,7 @@ function [z, memo] = ftmemo(FT, force, memo, filename, dt)
     filename = '_ftmemo.db';
   end
 
-  if nargin < 3 || ~isa(memo, 'memo')
+  if nargin < 3 || ~isa(memo, 'suture.memo')
     t_interval = 0:dt:(2*pi+dt);
     f = @(FT) ftpcurve(FT, t_interval, 0);
     hasher = @(x) strjoin(cellstr(['{' num2str(x.cos_terms) '},{' num2str(x.sin_terms) '}']));
