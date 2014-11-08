@@ -6,7 +6,7 @@ function ZofT = fcpcurve(A, T)
 % @param A  an array [a_k], k = 1:N
 % @param T  a scalar or an array, the point(s) at which the difference wishes
 %   to be calculated
-% @return [x, y] = z(t) - z(0) = x(t) - x(0) + i(y(t) - y(0)
+% @return ZofT = z(t) - z(0) = x(t) - x(0) + i(y(t) - y(0)
 %
 % Assumptions:
 %   1. The curve is parametrize by arc length. (i.e. periodic on 0:2pi)
