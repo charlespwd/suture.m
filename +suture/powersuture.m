@@ -1,9 +1,10 @@
-function z = powersuture(N, Pphi, Ph, dt)
+function z = powersuture(Pphi, Ph, N, dt)
   % POWERSUTURE  plot a suture with given N, P(h) and P(phi)
   import suture.rand_sphere_coord suture.suture;
 
-  if nargin < 2; Pphi = 0.10; end;
-  if nargin < 3; Ph   = 0.08; end;
+  if nargin < 1; Pphi = 0.10; end;
+  if nargin < 2; Ph   = 0.08; end;
+  if nargin < 3; N    = 15; end;
   if nargin < 4; dt   = 0.05; end;
 
   Aphis = abs(rand_sphere_coord(sqrt(Pphi), N));
